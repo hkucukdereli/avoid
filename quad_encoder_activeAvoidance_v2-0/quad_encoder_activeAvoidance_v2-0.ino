@@ -6,10 +6,10 @@
 #include <Encoder.h> // get it from https://github.com/PaulStoffregen/Encoder
 #include <digitalWriteFast.h> // get it from: https://github.com/NicksonYap/digitalWriteFast
 
-//#define VISSTIM 7 // visual stim input from ML
-//#define OUTPIN 8 // button output to ML
-#define VISSTIM 13 // visual stim input from ML
-#define OUTPIN 11 // button output to ML
+#define VISSTIM 7 // visual stim input from ML
+#define OUTPIN 8 // button output to ML
+//#define VISSTIM 13 // visual stim input from ML. Debugging only
+//#define OUTPIN 11 // button output to ML. Debugging only
 #define CAMPIN 12 // camera output to face camera
 
 Encoder myEnc(2,3); // encoder is connected to interrupts 1&2
@@ -51,7 +51,7 @@ const int bufferLen = (bufferDur / interval) + 1;
 long bufferArr[bufferLen];
 
 // debug mode
-bool debug = true;
+bool debug = false;
 
 void setup()
 {  
@@ -64,7 +64,7 @@ void setup()
   if (debug) {String text="Buffer length "+String(bufferLen)+" samples at "+String(sampling)+"Hz.";Serial.println(text);}
   // Wait for serial port to connect
   while (!Serial) {
-    ;
+    ; // do nothing as you wait
     }
   if (debug) {Serial.print("Serial begins...\nThreshold is set to ");Serial.println(threshold);}
   myEnc.write(0); // Intialize the encoder with "0"
@@ -85,11 +85,11 @@ void loop() {
     // Calculate the instantaneous speed
     // Warning: Speed is scaled by 1000 to avoid floating point math
     vel = ((pos - prevPos) * 1000) / interval;
-//    if (debug && vel > 0) {Serial.print("Speed: ");Serial.println(vel);}
+    if (debug && vel > 0) {Serial.print("Speed: ");Serial.println(vel);}
     
     // Write the position to the serial
     b = (byte *) &pos;
-//    Serial.write(b, 4);
+    Serial.write(b, 4);
 //    if (debug) {Serial.print("Position: ");Serial.println(pos);}
 
     // Update the position in the buffer
