@@ -1,5 +1,5 @@
 // Rotary encoder code for active avoidance
-// Position is the number of ticks not physical distance.
+// Position is the number of ticks not the physical distance.
 // Warning: Speed is scaled by 1000 to avoid floating point math.
 // Select your threshold accordingly.
 
@@ -62,6 +62,7 @@ void setup()
   
   Serial.begin(9600); // Note to user: Double check your baudrate to match to MATLAB's
   if (debug) {String text="Buffer length "+String(bufferLen)+" samples at "+String(sampling)+"Hz.";Serial.println(text);}
+  
   // Wait for serial port to connect
   while (!Serial) {
     ; // do nothing as you wait
@@ -90,7 +91,6 @@ void loop() {
     // Write the position to the serial
     b = (byte *) &pos;
     Serial.write(b, 4);
-//    if (debug) {Serial.print("Position: ");Serial.println(pos);}
 
     // Update the position in the buffer
     bufferArr[pulseCount] = vel;
