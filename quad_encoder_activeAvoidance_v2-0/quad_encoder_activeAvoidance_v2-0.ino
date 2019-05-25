@@ -139,7 +139,7 @@ void loop() {
   // Visual stimulus detection block ends
 
   // ML pulse block starts
-  if (samplingState && currentMillis - visMillis > samplingDur) {
+  if (samplingState && currentMillis - visMillis >= samplingDur) {
     long afterVel = averageVel;
     samplingState = false;
 
@@ -155,7 +155,8 @@ void loop() {
       if (debug) {Serial.println("FAIL");}
       }
     }
-  if (outState && currentMillis - outMillis > 101) {
+    
+  if (outState && currentMillis - outMillis >= 101) {
     if (debug) {Serial.println("OUT-off");}
     digitalWriteFast(OUTPIN, LOW);
     outState = false;
