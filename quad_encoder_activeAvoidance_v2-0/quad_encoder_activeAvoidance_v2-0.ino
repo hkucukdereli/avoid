@@ -50,6 +50,9 @@ const int bufferDur = 2 * samplingDur; // so that the buffer is centered around 
 const int bufferLen = (bufferDur / interval) + 1;
 long bufferArr[bufferLen];
 
+// training mode
+bool training = false; // change to true if training
+
 // debug mode
 bool debug = false;
 
@@ -62,10 +65,12 @@ void setup()
   
   Serial.begin(9600); // Note to user: Double check your baudrate to match to MATLAB's
   if (debug) {String text="Buffer length "+String(bufferLen)+" samples at "+String(sampling)+"Hz.";Serial.println(text);}
-  
+
   // Wait for serial port to connect
-  while (!Serial) {
-    ; // do nothing as you wait
+  if (!training) { // No need to wait for serial if it is training
+    while (!Serial) {
+      ; // do nothing as you wait
+      }
     }
   if (debug) {Serial.print("Serial begins...\nThreshold is set to ");Serial.println(threshold);}
   myEnc.write(0); // Intialize the encoder with "0"
