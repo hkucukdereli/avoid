@@ -17,9 +17,9 @@ Encoder myEnc(2,3); // encoder is connected to interrupts 1&2
 byte m, *b; // for writing to serial
 
 // pulsing variables
-const long sampling = 20; // Hz. Sampling rate for speed estimation
-const long interval = 1000 / sampling; // ms. Calculate the period from the sampling rate 
-const long pulseDur = 10; // ms. Pulse duration
+const int sampling = 20; // Hz. Sampling rate for speed estimation
+const long interval = 1000L / sampling; // ms. Calculate the period from the sampling rate 
+const int pulseDur = 10; // ms. Pulse duration
 int pulseCount = 0;
 
 // position variables
