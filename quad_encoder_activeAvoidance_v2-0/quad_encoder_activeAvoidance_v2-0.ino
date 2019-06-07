@@ -22,6 +22,12 @@ const long interval = 1000L / sampling; // ms. Calculate the period from the sam
 const int pulseDur = 10; // ms. Pulse duration
 int pulseCount = 0;
 
+// buffer variables
+const int samplingDur = 200; // sampling duration after on/offset.
+const int bufferDur = 2 * samplingDur; // so that the buffer is centered around on/offset
+const int bufferLen = (bufferDur / interval) + 1;
+long bufferArr[bufferLen];
+
 // position variables
 long pos = 0L; // position from the encoder
 long prevPos = 0L; // previous position to use to calculate the instantaneous speed 
@@ -29,7 +35,7 @@ long scale = 2L;
 
 // speed variables
 long vel = 0L; // velocity
-int threshold = ((2 / scale) * 1000) / interval ; // cm/sec. Threshold to exceed for a correct trial
+int threshold = ((4 / scale) * 1000) / samplingDur ; // cm/sec. Threshold to exceed for a correct trial
 long beforeVel = 0L;
 
 // timing variables
@@ -44,17 +50,11 @@ bool visState = false;
 bool samplingState = false;
 bool outState = false;
 
-// buffer variables
-const int samplingDur = 200; // sampling duration after on/offset.
-const int bufferDur = 2 * samplingDur; // so that the buffer is centered around on/offset
-const int bufferLen = (bufferDur / interval) + 1;
-long bufferArr[bufferLen];
-
 // training mode
-bool training = false; // change to true if training
+bool training = true; // change to true if training
 
 // debug mode
-bool debug = false;
+bool debug = true;
 
 void setup()
 {  
